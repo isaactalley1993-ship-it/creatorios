@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/index.cjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "dist/index.cjs"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|ico|svg|woff2?))",
+      "dest": "dist/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/public/index.html"
+    }
+  ]
+}
