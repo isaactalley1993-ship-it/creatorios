@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import type { IncomeStream, BrandDeal } from "@shared/schema";
 
-const PLATFORMS = [
+const PLATFORMS = ["OnlyFans",
   "YouTube AdSense", "TikTok Creator Fund", "Instagram Reels", "Twitch",
   "Patreon", "Brand Deal", "Affiliate", "Merch", "Podcast", "Other",
 ];
@@ -29,6 +29,7 @@ const PLATFORM_COLORS: Record<string, string> = {
   "Instagram Reels": "hsl(320 70% 60%)",
   "Twitch": "hsl(265 75% 60%)",
   "Patreon": "hsl(10 75% 55%)",
+  "OnlyFans": "hsl(195 85% 42%)",
   "Brand Deal": "hsl(262 83% 58%)",
   "Affiliate": "hsl(173 58% 45%)",
   "Merch": "hsl(43 90% 55%)",

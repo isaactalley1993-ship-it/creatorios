@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Lock, Sparkles } from "lucide-react";
 
 const PLATFORMS = [
-  { v: "youtube", l: "YouTube" }, { v: "tiktok", l: "TikTok" }, { v: "instagram", l: "Instagram" },
+  { v: "youtube", l: "YouTube" }, { v: "tiktok", l: "TikTok" }, { v: "instagram", l: "Instagram" }, { v: "onlyfans", l: "OnlyFans" },
   { v: "twitch", l: "Twitch" }, { v: "podcast", l: "Podcast" }, { v: "other", l: "Other" },
 ];
 const NICHES = [

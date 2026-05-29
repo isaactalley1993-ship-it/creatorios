@@ -22,7 +22,11 @@ const PRICE_IDS: Record<string, string> = {
   business: "price_1TbxKKIylPyKDIeuXkdxZSqv",
 };
 
-const stripe = new Stripe(STRIPE_SECRET, { apiVersion: "2024-11-20.acacia" as any });
+// Lazy Stripe init — only instantiate when key is present
+const getStripe = () => {
+  if (!STRIPE_SECRET) return null;
+  return new Stripe(STRIPE_SECRET, { apiVersion: "2024-11-20.acacia" as any });
+};
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -42,7 +46,9 @@ export async function registerRoutes(
     const sig = req.headers["stripe-signature"];
     let event: Stripe.Event;
     try {
-      event = stripe.webhooks.constructEvent(req.rawBody, sig as string, WEBHOOK_SECRET);
+      const stripeInstance = getStripe();
+      if (!stripeInstance) return res.status(503).json({ error: 'payment_not_configured' });
+      event = stripeInstance.webhooks.constructEvent(req.rawBody, sig as string, WEBHOOK_SECRET);
     } catch (err: any) {
       console.error("Webhook signature error:", err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -346,7 +352,9 @@ export async function registerRoutes(
       if (!priceId) return res.status(400).json({ message: "Invalid tier" });
 
       const origin = req.headers.origin || `http://${req.headers.host}`;
-      const session = await stripe.checkout.sessions.create({
+      const stripeInst = getStripe();
+      if (!stripeInst) return res.status(503).json({ error: 'payment_not_configured', message: 'Stripe not configured' });
+      const session = await stripeInst.checkout.sessions.create({
         mode: "subscription",
         line_items: [{ price: priceId, quantity: 1 }],
         success_url: `${origin}/#/dashboard?upgraded=1`,

@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Lock, Users, Send, Inbox, Sparkles } from "lucide-react";
 import type { CollabListingWithAuthor } from "@shared/schema";
 
-const PLATFORMS = ["youtube", "tiktok", "instagram", "twitch", "podcast", "other"];
+const PLATFORMS = ["youtube", "tiktok", "instagram", "twitch", "podcast", "onlyfans", "other"];
 const NICHES = ["fitness", "cooking", "gaming", "finance", "fashion", "beauty", "tech", "travel", "lifestyle", "other"];
 const AUDIENCES = ["1K-10K", "10K-50K", "50K-100K", "100K-500K", "500K+"];
 const COLLAB_TYPES = ["video", "podcast", "shoutout", "campaign", "sponsorship"];
@@ -24,6 +24,7 @@ const PLATFORM_STYLES: Record<string, { bg: string; label: string }> = {
   instagram: { bg: "bg-gradient-to-r from-purple-500 to-pink-500 text-white", label: "Instagram" },
   twitch: { bg: "bg-purple-600 text-white", label: "Twitch" },
   podcast: { bg: "bg-orange-500 text-white", label: "Podcast" },
+  onlyfans: { bg: "bg-cyan-500 text-white", label: "OnlyFans" },
   other: { bg: "bg-slate-500 text-white", label: "Other" },
 };
 
