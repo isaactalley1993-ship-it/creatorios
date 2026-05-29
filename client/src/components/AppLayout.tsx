@@ -125,6 +125,30 @@ export function AppLayout({ children }: { children: ReactNode }) {
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
+
+      {/* Mobile bottom tab bar — always visible on mobile */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-background border-t border-border flex items-center justify-around px-2 py-1">
+        {[nav[0], nav[1], nav[2], nav[3], nav[4]].map((item) => {
+          const active = location === item.href || location.startsWith(item.href + "/");
+          const Icon = item.icon;
+          return (
+            <Link key={item.href} href={item.href}>
+              <div className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                active ? "text-primary" : "text-muted-foreground"
+              }`}>
+                <div className="relative">
+                  <Icon className="w-5 h-5" />
+                  {item.href === "/collabs" && pendingCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-coral" />
+                  )}
+                </div>
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/40" onClick={() => setMobileOpen(false)}>
           <div className="absolute left-0 top-0 bottom-0 w-64" onClick={(e) => e.stopPropagation()}>{Sidebar}</div>

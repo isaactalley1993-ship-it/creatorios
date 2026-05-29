@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import {
-} from "react-icons/si";
+import { SiYoutube, SiTiktok, SiInstagram, SiTwitch, SiPatreon, SiSpotify, SiOnlyfans } from "react-icons/si";
 import {
   DollarSign, Briefcase, Calculator, ArrowRight, Check, Sparkles, TrendingUp,
 } from "lucide-react";
@@ -19,6 +18,7 @@ const platforms = [
   { Icon: SiTwitch, name: "Twitch", color: "#9146FF" },
   { Icon: SiPatreon, name: "Patreon", color: "#FF424D" },
   { Icon: SiSpotify, name: "Spotify", color: "#1DB954" },
+  { Icon: SiOnlyfans, name: "OnlyFans", color: "#00AFF0" },
 ];
 
 export default function Landing() {
