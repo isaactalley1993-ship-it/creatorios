@@ -158,6 +158,51 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Creator Hub Section */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-primary/5 to-background">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="text-xs uppercase tracking-widest text-primary font-semibold mb-3">New ✨</div>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Meet Your Next Collab Partner</h2>
+            <p className="mt-4 text-muted-foreground text-lg">
+              The only place where creators find, connect, and grow together. Browse by niche, platform, and audience size.
+            </p>
+          </div>
+
+          {/* Mock creator cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {[
+              { platform: "YouTube", platformColor: "#FF0000", name: "Maya Chen", niche: "Cooking", size: "50K–100K", collab: "Video", title: "Cooking creator seeks fitness collab partner" },
+              { platform: "TikTok", platformColor: "#000000", name: "Alex Rivera", niche: "Finance", size: "100K–500K", collab: "Shoutout", title: "Finance TikToker looking for lifestyle crossover" },
+              { platform: "Instagram", platformColor: "#E4405F", name: "Jordan Kim", niche: "Fitness", size: "10K–50K", collab: "Campaign", title: "Fitness IG running 30-day challenge collab" },
+              { platform: "Twitch", platformColor: "#9146FF", name: "Sam Torres", niche: "Gaming", size: "10K–50K", collab: "Video", title: "Twitch streamer + tech creator gaming setup collab" },
+              { platform: "YouTube", platformColor: "#FF0000", name: "Casey Blake", niche: "Beauty", size: "100K–500K", collab: "Video", title: "Beauty YouTuber + fashion creator GRWM series" },
+              { platform: "Podcast", platformColor: "#F97316", name: "Morgan Lee", niche: "Finance", size: "10K–50K", collab: "Podcast", title: "Creator economy podcast seeks finance expert guest" },
+            ].map((c, i) => (
+              <div key={i} className="bg-card border border-border rounded-xl p-5 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="px-2 py-0.5 rounded-full text-white text-xs font-semibold" style={{background: c.platformColor}}>{c.platform}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium">{c.niche}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs">{c.collab}</span>
+                </div>
+                <div className="font-semibold text-sm mb-1">{c.title}</div>
+                <div className="text-xs text-muted-foreground">{c.name} · {c.size} followers</div>
+                <button className="mt-3 w-full py-1.5 rounded-lg border border-primary text-primary text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors">Send Collab Request</button>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/signup">
+              <button className="px-8 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity" data-testid="button-collab-cta">
+                Join the Creator Network →
+              </button>
+            </Link>
+            <p className="mt-3 text-sm text-muted-foreground">Free to browse. Pro to connect.</p>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-16 bg-gradient-to-br from-primary/5 via-background to-coral/5 border-y border-border">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 text-center">
