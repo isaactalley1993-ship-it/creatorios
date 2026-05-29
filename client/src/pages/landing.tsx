@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import {
-  SiYoutube, SiTiktok, SiInstagram, SiTwitch, SiPatreon, SiSpotify,
 } from "react-icons/si";
 import {
   DollarSign, Briefcase, Calculator, ArrowRight, Check, Sparkles, TrendingUp,

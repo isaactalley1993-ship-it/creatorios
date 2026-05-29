@@ -52,7 +52,7 @@ export function LoginPage() {
   );
 }
 
-const CREATES_OPTIONS = ["YouTube", "TikTok", "Instagram", "OnlyFans", "Podcast", "Twitch", "Other"];
+const CREATES_OPTIONS = ["YouTube", "TikTok", "Instagram", "Podcast", "Twitch", "Other"];
 
 export function SignupPage() {
   const [, navigate] = useLocation();

@@ -14,11 +14,11 @@ import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from "recharts";
 import {
-  TrendingUp, Wallet, PiggyBank, Star, Calendar, Lock, Plus, ArrowRight, Sparkles,
+  TrendingUp, Wallet, PiggyBank, Star, Calendar, Lock, Plus, ArrowRight, Sparkles, Users,
 } from "lucide-react";
 import type { IncomeStream, BrandDeal } from "@shared/schema";
 
-const PLATFORMS = ["OnlyFans",
+const PLATFORMS = [
   "YouTube AdSense", "TikTok Creator Fund", "Instagram Reels", "Twitch",
   "Patreon", "Brand Deal", "Affiliate", "Merch", "Podcast", "Other",
 ];
@@ -29,7 +29,6 @@ const PLATFORM_COLORS: Record<string, string> = {
   "Instagram Reels": "hsl(320 70% 60%)",
   "Twitch": "hsl(265 75% 60%)",
   "Patreon": "hsl(10 75% 55%)",
-  "OnlyFans": "hsl(195 85% 42%)",
   "Brand Deal": "hsl(262 83% 58%)",
   "Affiliate": "hsl(173 58% 45%)",
   "Merch": "hsl(43 90% 55%)",
@@ -253,6 +252,26 @@ export default function Dashboard() {
                 <DealStatusBadge status={d.status} />
               </div>
             ))}
+          </div>
+        </Card>
+
+        {/* Collab Network CTA — full width */}
+        <Card className="p-5 col-span-full border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Users className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <div className="font-semibold text-sm">Find Your Next Collab Partner ✨</div>
+                <div className="text-xs text-muted-foreground mt-0.5">Connect with creators across YouTube, TikTok, Instagram, Twitch &amp; more. Grow together.</div>
+              </div>
+            </div>
+            <Link href="/collabs" data-testid="link-collabs-cta">
+              <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+                Browse Collabs →
+              </button>
+            </Link>
           </div>
         </Card>
       </div>

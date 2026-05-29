@@ -16,7 +16,7 @@ import { Plus, Trash2, Download, Lock } from "lucide-react";
 import { Link } from "wouter";
 import type { IncomeStream } from "@shared/schema";
 
-const PLATFORMS = ["YouTube AdSense", "TikTok Creator Fund", "Instagram Reels", "Twitch", "Patreon", "OnlyFans", "Brand Deal", "Affiliate", "Merch", "Podcast", "Other"];
+const PLATFORMS = ["YouTube AdSense", "TikTok Creator Fund", "Instagram Reels", "Twitch", "Patreon", "Brand Deal", "Affiliate", "Merch", "Podcast", "Other"];
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const COLORS = ["#7C3AED", "#FB7185", "#06B6D4", "#F59E0B", "#10B981", "#A855F7", "#EC4899", "#3B82F6", "#84CC16", "#64748B"];
 
