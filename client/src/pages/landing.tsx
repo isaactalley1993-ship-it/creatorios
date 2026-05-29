@@ -172,6 +172,7 @@ export default function Landing() {
           {/* Mock creator cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {[
+              { platform: "OnlyFans", platformColor: "#00AFF0", name: "Taylor Reyes", niche: "Lifestyle", size: "50K–100K", collab: "Campaign", title: "OF creator seeking brand deal + collab partners" },
               { platform: "YouTube", platformColor: "#FF0000", name: "Maya Chen", niche: "Cooking", size: "50K–100K", collab: "Video", title: "Cooking creator seeks fitness collab partner" },
               { platform: "TikTok", platformColor: "#000000", name: "Alex Rivera", niche: "Finance", size: "100K–500K", collab: "Shoutout", title: "Finance TikToker looking for lifestyle crossover" },
               { platform: "Instagram", platformColor: "#E4405F", name: "Jordan Kim", niche: "Fitness", size: "10K–50K", collab: "Campaign", title: "Fitness IG running 30-day challenge collab" },
