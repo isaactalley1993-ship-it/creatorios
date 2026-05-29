@@ -10,6 +10,7 @@ import {
   signupSchema, loginSchema,
   insertIncomeSchema, insertDealSchema, insertInvoiceSchema,
   insertWaitlistSchema,
+  insertCollabListingSchema, insertCollabRequestSchema,
 } from "@shared/schema";
 import { requireAuth, signToken, publicUser, type AuthedRequest } from "./auth";
 
@@ -244,6 +245,97 @@ export async function registerRoutes(
       recentDeals: deals.slice(0, 3),
       currentMonthLabel: monthIncome[0] ? `${monthIncome[0].month}/${monthIncome[0].year}` : `${curMonth}/${curYear}`,
     });
+  });
+
+  // ============ COLLABS ============
+  app.get("/api/collabs", (req, res) => {
+    const { platform, niche, audienceSize, collabType } = req.query as Record<string, string | undefined>;
+    const listings = storage.getCollabListings({
+      platform: platform || undefined,
+      niche: niche || undefined,
+      audienceSize: audienceSize || undefined,
+      collabType: collabType || undefined,
+    });
+    res.json(listings);
+  });
+
+  app.post("/api/collabs", requireAuth, (req: AuthedRequest, res) => {
+    if (req.user!.tier === "free") {
+      return res.status(403).json({ message: "Posting collab listings is a Pro feature. Upgrade to post." });
+    }
+    try {
+      const data = insertCollabListingSchema.parse(req.body);
+      const listing = storage.createCollabListing(req.user!.id, data);
+      res.status(201).json(listing);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  });
+
+  app.get("/api/collabs/my/listings", requireAuth, (req: AuthedRequest, res) => {
+    res.json(storage.getMyListings(req.user!.id));
+  });
+
+  app.get("/api/collabs/my/requests", requireAuth, (req: AuthedRequest, res) => {
+    res.json(storage.getMyRequests(req.user!.id));
+  });
+
+  app.get("/api/collabs/my/pending-count", requireAuth, (req: AuthedRequest, res) => {
+    res.json({ count: storage.getPendingReceivedCount(req.user!.id) });
+  });
+
+  app.get("/api/collabs/:id", (req, res) => {
+    const listing = storage.getCollabListing(parseInt(req.params.id, 10));
+    if (!listing) return res.status(404).json({ message: "Not found" });
+    res.json(listing);
+  });
+
+  app.patch("/api/collabs/:id", requireAuth, (req: AuthedRequest, res) => {
+    try {
+      // Accept any subset of fields including status
+      const body = req.body as any;
+      const allowed = ["title", "description", "platform", "niche", "audienceSize", "collabType", "lookingFor", "status"];
+      const data: Record<string, any> = {};
+      for (const k of allowed) {
+        if (k in body) data[k] = body[k];
+      }
+      const updated = storage.updateCollabListing(req.user!.id, parseInt(req.params.id, 10), data);
+      if (!updated) return res.status(404).json({ message: "Not found" });
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  });
+
+  app.post("/api/collabs/:id/request", requireAuth, (req: AuthedRequest, res) => {
+    try {
+      const { message } = insertCollabRequestSchema.parse(req.body);
+      if (req.user!.tier === "free") {
+        return res.status(403).json({ message: "Sending collab requests is a Pro feature." });
+      }
+      const listingId = parseInt(req.params.id, 10);
+      const listing = storage.getCollabListing(listingId);
+      if (!listing) return res.status(404).json({ message: "Listing not found" });
+      if (listing.userId === req.user!.id) return res.status(400).json({ message: "Can't request your own listing" });
+      const r = storage.sendCollabRequest(req.user!.id, listingId, message);
+      res.status(201).json(r);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  });
+
+  app.patch("/api/collab-requests/:id", requireAuth, (req: AuthedRequest, res) => {
+    try {
+      const { status } = req.body as { status: string };
+      if (!status || !["accepted", "declined", "pending"].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+      const updated = storage.updateRequestStatus(req.user!.id, parseInt(req.params.id, 10), status);
+      if (!updated) return res.status(404).json({ message: "Not found" });
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
   });
 
   // ============ STRIPE CHECKOUT ============

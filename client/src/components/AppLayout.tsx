@@ -2,8 +2,9 @@ import { ReactNode, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Logo } from "./Logo";
 import { useAuth } from "@/lib/auth";
+import { useQuery } from "@tanstack/react-query";
 import {
-  LayoutDashboard, DollarSign, Briefcase, Calculator, FileText, CreditCard, LogOut, Menu, X, Sparkles
+  LayoutDashboard, DollarSign, Briefcase, Calculator, FileText, CreditCard, LogOut, Menu, X, Sparkles, Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +13,7 @@ const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/income", label: "Income", icon: DollarSign },
   { href: "/deals", label: "Brand Deals", icon: Briefcase },
+  { href: "/collabs", label: "Collabs", icon: Users },
   { href: "/tax", label: "Tax Center", icon: Calculator },
   { href: "/invoices", label: "Invoices", icon: FileText },
   { href: "/pricing", label: "Pricing", icon: CreditCard },
@@ -21,6 +23,12 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pendingQ = useQuery<{ count: number }>({
+    queryKey: ["/api/collabs/my/pending-count"],
+    refetchInterval: 60_000,
+    enabled: !!user,
+  });
+  const pendingCount = pendingQ.data?.count || 0;
 
   const Sidebar = (
     <aside className="w-60 shrink-0 bg-sidebar border-r border-sidebar-border flex flex-col h-screen sticky top-0">
@@ -48,7 +56,15 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 }`}
               >
                 <Icon className="w-4 h-4" />
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {item.href === "/collabs" && pendingCount > 0 && (
+                  <span
+                    className="ml-auto inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-coral text-white text-[10px] font-semibold"
+                    data-testid="badge-pending-collab-requests"
+                  >
+                    {pendingCount}
+                  </span>
+                )}
               </div>
             </Link>
           );

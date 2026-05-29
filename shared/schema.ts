@@ -51,6 +51,30 @@ export const invoices = sqliteTable("invoices", {
   createdAt: integer("created_at").notNull(),
 });
 
+export const collabListings = sqliteTable("collab_listings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("user_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  platform: text("platform").notNull(),
+  niche: text("niche").notNull(),
+  audienceSize: text("audience_size").notNull(),
+  collabType: text("collab_type").notNull(),
+  lookingFor: text("looking_for").notNull(),
+  status: text("status").notNull().default("open"),
+  createdAt: integer("created_at").notNull(),
+});
+
+export const collabRequests = sqliteTable("collab_requests", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  fromUserId: integer("from_user_id").notNull(),
+  toUserId: integer("to_user_id").notNull(),
+  listingId: integer("listing_id").notNull(),
+  message: text("message").notNull(),
+  status: text("status").notNull().default("pending"),
+  createdAt: integer("created_at").notNull(),
+});
+
 export const waitlist = sqliteTable("waitlist", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   email: text("email").notNull().unique(),
@@ -110,3 +134,29 @@ export type InsertWaitlist = z.infer<typeof insertWaitlistSchema>;
 export type Waitlist = typeof waitlist.$inferSelect;
 
 export type InvoiceItem = { description: string; amount: number };
+
+export const insertCollabListingSchema = createInsertSchema(collabListings).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+  status: true,
+});
+export type InsertCollabListing = z.infer<typeof insertCollabListingSchema>;
+export type CollabListing = typeof collabListings.$inferSelect;
+
+export const insertCollabRequestSchema = z.object({
+  message: z.string().min(1).max(2000),
+});
+export type InsertCollabRequest = z.infer<typeof insertCollabRequestSchema>;
+export type CollabRequest = typeof collabRequests.$inferSelect;
+
+export type CollabListingWithAuthor = CollabListing & {
+  authorName: string;
+  authorCreates: string;
+};
+
+export type CollabRequestWithMeta = CollabRequest & {
+  listingTitle: string;
+  fromName: string;
+  toName: string;
+};

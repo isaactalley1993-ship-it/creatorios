@@ -16,6 +16,9 @@ import DealsPage from "@/pages/deals";
 import TaxPage from "@/pages/tax";
 import InvoicesPage from "@/pages/invoices";
 import PricingPage from "@/pages/pricing";
+import CollabsPage from "@/pages/collabs";
+import CollabsNewPage from "@/pages/collabs-new";
+import MyCollabsPage from "@/pages/my-collabs";
 
 function Authed({ Page }: { Page: () => JSX.Element }) {
   return (
@@ -38,6 +41,9 @@ function AppRouter() {
       <Route path="/deals">{() => <Authed Page={DealsPage} />}</Route>
       <Route path="/tax">{() => <Authed Page={TaxPage} />}</Route>
       <Route path="/invoices">{() => <Authed Page={InvoicesPage} />}</Route>
+      <Route path="/collabs">{() => <Authed Page={CollabsPage} />}</Route>
+      <Route path="/collabs/new">{() => <Authed Page={CollabsNewPage} />}</Route>
+      <Route path="/my-collabs">{() => <Authed Page={MyCollabsPage} />}</Route>
       <Route path="/pricing">{() => <Authed Page={PricingPage} />}</Route>
       <Route component={NotFound} />
     </Switch>
